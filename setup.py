@@ -133,8 +133,10 @@ def main():
         ),
     )
 
+    scraper_join, scraper_install_dir = to_funcs("crawlcomply_scraper")
+
     setup(
-        name="python-" + package_name,
+        name=package_name,
         author=__author__,
         author_email="807580+SamuelMarks@users.noreply.github.com",
         version=__version__,
@@ -155,17 +157,32 @@ def main():
             "Natural Language :: English",
             "Operating System :: OS Independent",
             "Programming Language :: Python :: 3 :: Only",
-            "Programming Language :: Python :: 3.6",
-            "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
             "Programming Language :: Python :: Implementation",
             "Programming Language :: Python :: Implementation :: CPython",
         ],
-        python_requires=">=3.6",
+        python_requires=">=3.8",
         url="https://github.com/crawlcomply/crawlcomply-crawl-py",
+        entry_points={
+            "scrapy.commands": [
+                "scroll=crawlcomply_crawl.crawlcomply_scraper.crawlcomply_scraper.spiders.scroll:ScrollSpider",
+            ],
+        },
+        data_files=[
+            (
+                scraper_install_dir(),
+                list(
+                    filter(
+                        lambda p: path.isfile(p) and not p.endswith(".py"),
+                        list(map(scraper_join, os.listdir(scraper_join()))),
+                    )
+                ),
+            ),
+        ],
     )
 
 

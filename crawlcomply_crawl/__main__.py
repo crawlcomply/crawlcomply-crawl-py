@@ -64,6 +64,16 @@ def _build_parser():
         default=int(environ.get("PORT", 4000)),
         type=int,
     )
+    serve_parser.add_argument(
+        "--reload",
+        help="Reload server on file change",
+        default=(
+            environ["RELOAD"] in frozenset(("1", "true", "True", "t", "T"))
+            if "RELOAD" in environ
+            else False
+        ),
+        type=int,
+    )
 
     return parser
 

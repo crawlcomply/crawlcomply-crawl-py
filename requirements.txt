@@ -1,3 +1,5 @@
 fastapi
 scrapy
+scrapyrt
+scrapy-playwright
 uvicorn[standard]
